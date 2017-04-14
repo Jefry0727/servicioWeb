@@ -2,6 +2,7 @@ package co.edu.eam.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -28,6 +29,9 @@ public class Carrito implements Serializable {
 	// bi-directional many-to-one association to Usuario
 	@ManyToOne
 	private Usuario usuario;
+
+	@Column(name = "valor_total")
+	private BigDecimal valorTotal;
 
 	public Carrito() {
 	}
@@ -70,6 +74,14 @@ public class Carrito implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public BigDecimal getValorTotal() {
+		return this.valorTotal;
+	}
+
+	public void setValorTotal(BigDecimal valorTotal) {
+		this.valorTotal = valorTotal;
 	}
 
 }
