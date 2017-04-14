@@ -2,11 +2,11 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="servicio_web_master">
 		<jta-data-source>WebServices</jta-data-source>
-		<class>co.edu.eam.model.Carrito</class>
 		<class>co.edu.eam.model.Cliente</class>
 		<class>co.edu.eam.model.DetalleFactura</class>
 		<class>co.edu.eam.model.Factura</class>
 		<class>co.edu.eam.model.Producto</class>
 		<class>co.edu.eam.model.Usuario</class>
+		<class>co.edu.eam.model.Carrito</class>
 	</persistence-unit>
 </persistence>

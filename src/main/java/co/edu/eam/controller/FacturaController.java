@@ -16,6 +16,7 @@ import javax.persistence.Query;
 
 import co.edu.eam.dto.ItemsDTO;
 import co.edu.eam.ejb.PersistenceManagerLocal;
+import co.edu.eam.model.Carrito;
 import co.edu.eam.model.Cliente;
 import co.edu.eam.model.DetalleFactura;
 import co.edu.eam.model.Factura;
@@ -112,6 +113,10 @@ public class FacturaController {
 
 			}
 
+		}else{
+			
+			//return false;
+			
 		}
 
 	}
@@ -134,6 +139,21 @@ public class FacturaController {
 
 		return true;
 
+	}
+	
+	@WebMethod
+	public void eliminarCarrito(Integer idProducto, Integer idUsuario){
+		
+		Query query = persistencia.createQuery("SELECT c FROM Carrito c where c.producto.id = "+idProducto+" and c.usuario.id = "+idUsuario);
+		
+		System.out.println(query.toString());
+		
+		Carrito carrito = (Carrito) query.getSingleResult();
+		
+		System.out.println(carrito.getCantidad());
+		
+		persistencia.remove(carrito.getClass(),carrito.getId());
+		
 	}
 
 }

@@ -26,7 +26,7 @@ public class main {
 		// TODO Auto-generated method stub
 		FacturaController df = new FacturaController();
 		
-		//df.compra(null, null, null);
+		df.crearCompra(null, null, null);
 	}
 
 }

@@ -42,7 +42,7 @@ public class PersistenceManagerBean implements PersistenceManagerLocal {
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public void remove(@SuppressWarnings("rawtypes") Class clazz, long id) {
+	public void remove(@SuppressWarnings("rawtypes") Class clazz, Integer id) {
 		Object obj = em.getReference(clazz, id);
 		em.remove(obj);
 	}

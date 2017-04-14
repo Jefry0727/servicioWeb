@@ -19,7 +19,7 @@ public interface PersistenceManagerLocal {
 	public void persist(Object p1);
 	
 	@SuppressWarnings("rawtypes")
-	public void remove(Class clazz, long id);
+	public void remove(Class clazz, Integer id);
 
 	public Query createQuery(String p1);
 
