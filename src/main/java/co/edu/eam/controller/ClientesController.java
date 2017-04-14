@@ -57,8 +57,12 @@ public class ClientesController {
 		try {
 
 			/**
-			 * Se guarda en cliente en la base de datos
+			 * Se guarda en cliente en la base de datos y se modifica el 
+			 * id para que deje guardar por que sin el no se porque no guarda
 			 */
+			
+			cliente.setId(1);
+			
 			persistencia.persist(cliente);
 
 			/**
