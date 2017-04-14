@@ -152,7 +152,6 @@ public class FacturaController {
 
 	}
 
-	@WebMethod
 	public void eliminarCarrito(Integer idProducto, Integer idUsuario) {
 
 		Query query = persistencia.createQuery(
