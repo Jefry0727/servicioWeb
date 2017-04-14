@@ -35,11 +35,15 @@ public class FacturaController {
 	private PersistenceManagerLocal persistencia;
 
 	@WebMethod
-	public void crearCompra(@WebParam(name = "id_usuario") Integer id,
+	public String crearCompra(@WebParam(name = "id_usuario") Integer id,
 			@WebParam(name = "total_factura") Double total_fac,
 			@WebParam(name = "detalles_factura") List<ItemsDTO> items) {
 
-		if (validarItems(items)) {
+		String result = "";
+		
+		Producto validor = validarItems(items);
+		
+		if (validor == null) {
 
 			/**
 			 * Crea el usuario y setea el id para adicionarlo en la factura como
@@ -94,9 +98,8 @@ public class FacturaController {
 			 * for que guarda los detalles de facturas
 			 */
 			for (ItemsDTO itemsDTO : items) {
-				
-				query = persistencia
-						.createQuery("SELECT p FROM Producto f where p.id='" + itemsDTO.getId() + "'");
+
+				query = persistencia.createQuery("SELECT p FROM Producto f where p.id='" + itemsDTO.getId() + "'");
 
 				Producto producto = (Producto) query.getSingleResult();
 
@@ -106,22 +109,30 @@ public class FacturaController {
 
 				persistencia.update(producto);
 
-				DetalleFactura detalle = new DetalleFactura(0, itemsDTO.getCantidad(), fecha, itemsDTO.getValorTotal(), factura,
-						producto);
+				DetalleFactura detalle = new DetalleFactura(0, itemsDTO.getCantidad(), fecha, itemsDTO.getValorTotal(),
+						factura, producto);
 
 				persistencia.persist(detalle);
 
-			}
+				eliminarCarrito(producto.getId(), usuario.getId());
 
-		}else{
+			}
 			
-			//return false;
+			result = "Exito";
 			
+			return result;
+
+		} else {
+			
+			result = "El producto " + validor.getNombre() + " solo tiene disponible " + validor.getCantidad();
+
+		 return result;
+
 		}
 
 	}
 
-	public boolean validarItems(List<ItemsDTO> items) {
+	public Producto validarItems(List<ItemsDTO> items) {
 
 		for (ItemsDTO itemsDTO : items) {
 
@@ -131,29 +142,30 @@ public class FacturaController {
 
 			if ((produc.getCantidad().intValue()) > (itemsDTO.getCantidad().intValue())) {
 
-				return false;
+				return produc;
 
 			}
 
 		}
 
-		return true;
+		return null;
 
 	}
-	
+
 	@WebMethod
-	public void eliminarCarrito(Integer idProducto, Integer idUsuario){
-		
-		Query query = persistencia.createQuery("SELECT c FROM Carrito c where c.producto.id = "+idProducto+" and c.usuario.id = "+idUsuario);
-		
+	public void eliminarCarrito(Integer idProducto, Integer idUsuario) {
+
+		Query query = persistencia.createQuery(
+				"SELECT c FROM Carrito c where c.producto.id = " + idProducto + " and c.usuario.id = " + idUsuario);
+
 		System.out.println(query.toString());
-		
+
 		Carrito carrito = (Carrito) query.getSingleResult();
-		
+
 		System.out.println(carrito.getCantidad());
-		
-		persistencia.remove(carrito.getClass(),carrito.getId());
-		
+
+		persistencia.remove(carrito.getClass(), carrito.getId());
+
 	}
 
 }
