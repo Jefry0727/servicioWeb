@@ -21,16 +21,16 @@ import co.edu.eam.model.Producto;
  * @version 
  */
 @Stateless
-@WebService
+@WebService(name = "ProductoController", portName = "ProCtlPort", targetNamespace = "http://co.edu.eam.ingsoft.distribuidos")
 public class ProductoController {
 	
 	@EJB
 	private PersistenceManagerLocal persistencia;
 	
-	@WebMethod
+	@WebMethod(action = "listarProductos", operationName = "operacionListarProductos")
 	public List<Producto> listarProductos(@WebParam(name = "nombreProducto")String nombre){
 		
-		Query query = persistencia.createQuery("SELECT p FROM Producto p WHERE p.nombre LIKE '%"+nombre+"%'");
+		Query query = persistencia.createQuery("SELECT p FROM Producto p WHERE p.nombre LIKE '%"+nombre.toUpperCase()+"%'");
 		
 		List <Producto> lista = (List<Producto>) query.getResultList();
 		

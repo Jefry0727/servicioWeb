@@ -19,7 +19,7 @@ import co.edu.eam.model.Usuario;
  * @version
  */
 @Stateless
-@WebService
+@WebService(name = "ClientesController", portName = "CliCtlPort", targetNamespace = "http://co.edu.eam.ingsoft.distribuidos")
 public class ClientesController {
 
 	@EJB
@@ -101,7 +101,7 @@ public class ClientesController {
 
 			return respuesta;
 		} catch (Exception e) {
-
+			e.printStackTrace();
 			respuesta = "ERRORS";
 
 			return respuesta;

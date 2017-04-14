@@ -21,13 +21,13 @@ import co.edu.eam.model.Usuario;
  * @version 
  */
 @Stateless
-@WebService
+@WebService(name = "LoginController", portName = "LogCtlPort", targetNamespace = "http://co.edu.eam.ingsoft.distribuidos")
 public class LoginController {
 	
 	@EJB
 	private PersistenceManagerLocal persistencia;
 	
-	@WebMethod
+	@WebMethod(action = "login", operationName = "operacionLogin")
 	public Usuario login(@WebParam(name="nombre_usuario")String user, @WebParam(name="contrasenia")String password){
 		
 		try{

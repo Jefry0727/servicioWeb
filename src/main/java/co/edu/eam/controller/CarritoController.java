@@ -19,13 +19,13 @@ import co.edu.eam.model.Producto;
  * @version 
  */
 
-@WebService
+@WebService(name = "CarritoController", portName = "CarriControPort", targetNamespace = "http://co.edu.eam.ingsoft.distribuidos")
 public class CarritoController {
 	
 	@EJB
 	private PersistenceManagerLocal persistencia;
 	
-	@WebMethod
+	@WebMethod(action = "AgregarCarrito", operationName = "operacionAgregarCarrito")
 	public boolean agregarCarrito(@WebParam(name= "carrito")Carrito carrito){
 		
 		if(validarProductos(carrito)){
@@ -52,6 +52,7 @@ public class CarritoController {
 		
 		
 	}
+	
 	
 	public boolean validarProductos(Carrito carrito){
 		
