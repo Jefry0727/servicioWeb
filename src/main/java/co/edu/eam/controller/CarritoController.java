@@ -56,7 +56,7 @@ public class CarritoController {
 
 		Producto produc = (Producto) querie.getSingleResult();
 
-		if ((produc.getCantidad().intValue()) > (carrito.getCantidad().intValue())) {
+		if ((produc.getCantidad().intValue()) <= (carrito.getCantidad().intValue())) {
 
 			return false;
 

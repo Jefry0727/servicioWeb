@@ -140,7 +140,7 @@ public class FacturaController {
 
 			Producto produc = (Producto) querie.getSingleResult();
 
-			if ((produc.getCantidad().intValue()) > (itemsDTO.getCantidad().intValue())) {
+			if ((produc.getCantidad().intValue()) <= (itemsDTO.getCantidad().intValue())) {
 
 				return produc;
 
