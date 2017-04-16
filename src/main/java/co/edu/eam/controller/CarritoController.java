@@ -86,9 +86,9 @@ public class CarritoController {
 	}
 
 	@WebMethod
-	public List<Carrito> listarCarrito() {
+	public List<Carrito> listarCarrito(int idUsuario) {
 
-		Query query = persistencia.createQuery("SELECT p FROM Carrito p ");
+		Query query = persistencia.createQuery("SELECT p FROM Carrito p WHERE p.usuario.id = "+ idUsuario);
 
 		List<Carrito> lista = (List<Carrito>) query.getResultList();
 
