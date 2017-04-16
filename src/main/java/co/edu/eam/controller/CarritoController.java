@@ -3,6 +3,7 @@
  */
 package co.edu.eam.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -11,9 +12,11 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.persistence.Query;
 
+import co.edu.eam.dto.CarritoDTO;
 import co.edu.eam.ejb.PersistenceManagerLocal;
 import co.edu.eam.model.Carrito;
 import co.edu.eam.model.Producto;
+import co.edu.eam.model.Usuario;
 
 /**
  * @author Jefry Londoño <jjmb2789@gmail.com> @13/04/2017
@@ -27,27 +30,42 @@ public class CarritoController {
 	private PersistenceManagerLocal persistencia;
 
 	@WebMethod(action = "AgregarCarrito", operationName = "operacionAgregarCarrito")
-	public boolean agregarCarrito(@WebParam(name = "carrito") Carrito carrito) {
+	public boolean agregarCarrito(@WebParam(name = "carritoDTO") CarritoDTO carritoDTO) {
+		
+		Date fecha = new Date();
+		
+		Producto producto = new Producto();
+		
+		producto.setId(Integer.parseInt(carritoDTO.getProductoDTO().getId()));
+		
+		Usuario users = new Usuario();
+		
+		users.setId(Integer.parseInt(carritoDTO.getUsuarioDTO().getId()));
+		
+		Carrito carrito = new Carrito(1, Integer.parseInt(carritoDTO.getCantidad()), fecha, producto,users , carritoDTO.getValorTotal());
+		
+		System.out.println(carrito.getId() + " "+ carrito.getCantidad() +" "+carrito.getProducto().getId()+" "+carrito.getUsuario().getId());
 
-		if (validarProductos(carrito)) {
-
-			try {
-
+//		if (validarProductos(carrito)) {
+//
+//			try {
+//
+//				
 				persistencia.persist(carrito);
-
-				return true;
-
-			} catch (Exception e) {
-
-				return false;
-
-			}
-
-		} else {
-
-			return false;
-		}
-
+//
+//				return true;
+//
+//			} catch (Exception e) {
+//
+//				return false;
+//
+//			}
+//
+//		} else {
+//
+//			return false;
+//		}
+		return true;
 	}
 
 	public boolean validarProductos(Carrito carrito) {

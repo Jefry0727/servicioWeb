@@ -35,6 +35,29 @@ public class Carrito implements Serializable {
 
 	public Carrito() {
 	}
+	
+	
+
+	/**
+	 * @param id
+	 * @param cantidad
+	 * @param fecha
+	 * @param producto
+	 * @param usuario
+	 * @param valorTotal
+	 */
+	public Carrito(Integer id, Integer cantidad, Date fecha, Producto producto, Usuario usuario,
+			BigDecimal valorTotal) {
+		super();
+		this.id = id;
+		this.cantidad = cantidad;
+		this.fecha = fecha;
+		this.producto = producto;
+		this.usuario = usuario;
+		this.valorTotal = valorTotal;
+	}
+
+
 
 	public Integer getId() {
 		return this.id;
