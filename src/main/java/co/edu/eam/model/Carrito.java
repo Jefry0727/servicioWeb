@@ -31,7 +31,7 @@ public class Carrito implements Serializable {
 	private Usuario usuario;
 
 	@Column(name = "valor_total")
-	private BigDecimal valorTotal;
+	private Double valorTotal;
 
 	public Carrito() {
 	}
@@ -47,7 +47,7 @@ public class Carrito implements Serializable {
 	 * @param valorTotal
 	 */
 	public Carrito(Integer id, Integer cantidad, Date fecha, Producto producto, Usuario usuario,
-			BigDecimal valorTotal) {
+			Double valorTotal) {
 		super();
 		this.id = id;
 		this.cantidad = cantidad;
@@ -99,11 +99,11 @@ public class Carrito implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public BigDecimal getValorTotal() {
+	public Double getValorTotal() {
 		return this.valorTotal;
 	}
 
-	public void setValorTotal(BigDecimal valorTotal) {
+	public void setValorTotal(Double valorTotal) {
 		this.valorTotal = valorTotal;
 	}
 

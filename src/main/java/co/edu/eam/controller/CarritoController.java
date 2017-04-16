@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -22,15 +23,18 @@ import co.edu.eam.model.Usuario;
  * @author Jefry Londoño <jjmb2789@gmail.com> @13/04/2017
  * @version
  */
-
+@Stateless
 @WebService(name = "CarritoController", portName = "CarriControPort", targetNamespace = "http://co.edu.eam.ingsoft.distribuidos")
 public class CarritoController {
 
 	@EJB
 	private PersistenceManagerLocal persistencia;
+	
 
 	@WebMethod(action = "AgregarCarrito", operationName = "operacionAgregarCarrito")
 	public boolean agregarCarrito(@WebParam(name = "carritoDTO") CarritoDTO carritoDTO) {
+		
+		System.out.println(carritoDTO.getValorTotal() + " Este es el valor");
 		
 		Date fecha = new Date();
 		
@@ -42,14 +46,11 @@ public class CarritoController {
 		
 		users.setId(Integer.parseInt(carritoDTO.getUsuarioDTO().getId()));
 		
-		Carrito carrito = new Carrito(1, Integer.parseInt(carritoDTO.getCantidad()), fecha, producto,users , carritoDTO.getValorTotal());
-		
-		System.out.println(carrito.getId() + " "+ carrito.getCantidad() +" "+carrito.getProducto().getId()+" "+carrito.getUsuario().getId());
+		Carrito carrito = new Carrito(1, Integer.parseInt(carritoDTO.getCantidad()), fecha, producto,users , Double.parseDouble(carritoDTO.getValorTotal()));
 
 		if (validarProductos(carrito)) {
 
 			try {
-
 				
 				persistencia.persist(carrito);
 
@@ -70,7 +71,7 @@ public class CarritoController {
 
 	public boolean validarProductos(Carrito carrito) {
 
-		Query querie = persistencia.createQuery("SELECT p FROM Producto f where p.id='" + carrito.getProducto().getId() + "'");
+		Query querie = persistencia.createQuery("SELECT p FROM Producto p where p.id='" + carrito.getProducto().getId() + "'");
 
 		Producto produc = (Producto) querie.getSingleResult();
 

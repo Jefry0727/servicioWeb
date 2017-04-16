@@ -26,7 +26,7 @@ public class CarritoDTO {
 
 	private UsuarioDTO usuarioDTO;
 	
-	private BigDecimal valorTotal;
+	private String valorTotal;
 
 	/**
 	 * @return the cantidad
@@ -47,14 +47,14 @@ public class CarritoDTO {
 	/**
 	 * @return the valorTotal
 	 */
-	public BigDecimal getValorTotal() {
+	public String getValorTotal() {
 		return valorTotal;
 	}
 
 	/**
 	 * @param valorTotal the valorTotal to set
 	 */
-	public void setValorTotal(BigDecimal valorTotal) {
+	public void setValorTotal(String valorTotal) {
 		this.valorTotal = valorTotal;
 	}
 
