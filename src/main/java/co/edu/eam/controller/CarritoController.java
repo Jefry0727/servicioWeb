@@ -46,31 +46,31 @@ public class CarritoController {
 		
 		System.out.println(carrito.getId() + " "+ carrito.getCantidad() +" "+carrito.getProducto().getId()+" "+carrito.getUsuario().getId());
 
-//		if (validarProductos(carrito)) {
-//
-//			try {
-//
-//				
+		if (validarProductos(carrito)) {
+
+			try {
+
+				
 				persistencia.persist(carrito);
-//
-//				return true;
-//
-//			} catch (Exception e) {
-//
-//				return false;
-//
-//			}
-//
-//		} else {
-//
-//			return false;
-//		}
-		return true;
+
+				return true;
+
+			} catch (Exception e) {
+
+				return false;
+
+			}
+
+		} else {
+
+			return false;
+		}
+
 	}
 
 	public boolean validarProductos(Carrito carrito) {
 
-		Query querie = persistencia.createQuery("SELECT p FROM Producto f where p.id='" + carrito.getId() + "'");
+		Query querie = persistencia.createQuery("SELECT p FROM Producto f where p.id='" + carrito.getProducto().getId() + "'");
 
 		Producto produc = (Producto) querie.getSingleResult();
 
