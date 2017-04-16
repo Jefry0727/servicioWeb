@@ -99,17 +99,17 @@ public class FacturaController {
 			 */
 			for (ItemsDTO itemsDTO : items) {
 
-				query = persistencia.createQuery("SELECT p FROM Producto f where p.id='" + itemsDTO.getId() + "'");
+				query = persistencia.createQuery("SELECT p FROM Producto p where p.id='" + itemsDTO.getId() + "'");
 
 				Producto producto = (Producto) query.getSingleResult();
 
-				aux = (itemsDTO.getCantidad().intValue()) - (producto.getCantidad().intValue());
+				aux = (Integer.parseInt(itemsDTO.getCantidad())) - (producto.getCantidad().intValue());
 
 				producto.setCantidad(aux);
 
 				persistencia.update(producto);
 
-				DetalleFactura detalle = new DetalleFactura(0, itemsDTO.getCantidad(), fecha, itemsDTO.getValorTotal(),
+				DetalleFactura detalle = new DetalleFactura(0, Integer.parseInt(itemsDTO.getCantidad()), fecha, Integer.parseInt(itemsDTO.getValorTotal()),
 						factura, producto);
 
 				persistencia.persist(detalle);
@@ -136,11 +136,11 @@ public class FacturaController {
 
 		for (ItemsDTO itemsDTO : items) {
 
-			Query querie = persistencia.createQuery("SELECT p FROM Producto f where p.id='" + itemsDTO.getId() + "'");
+			Query querie = persistencia.createQuery("SELECT p FROM Producto p where p.id='" + itemsDTO.getId() + "'");
 
 			Producto produc = (Producto) querie.getSingleResult();
 
-			if ((produc.getCantidad().intValue()) <= (itemsDTO.getCantidad().intValue())) {
+			if ((produc.getCantidad().intValue()) <= (Integer.parseInt(itemsDTO.getCantidad()))) {
 
 				return produc;
 

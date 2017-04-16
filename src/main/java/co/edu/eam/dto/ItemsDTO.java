@@ -10,51 +10,51 @@ package co.edu.eam.dto;
  */
 public class ItemsDTO {
 	
-	private Integer id;
+	private String id;
 	
-	private Double valorTotal;
+	private String valorTotal;
 	
-	private Integer cantidad;
+	private String cantidad;
 
 	/**
 	 * @return the id
 	 */
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
 	/**
 	 * @return the valorTotal
 	 */
-	public Double getValorTotal() {
+	public String getValorTotal() {
 		return valorTotal;
 	}
 
 	/**
 	 * @param valorTotal the valorTotal to set
 	 */
-	public void setValorTotal(Double valorTotal) {
+	public void setValorTotal(String valorTotal) {
 		this.valorTotal = valorTotal;
 	}
 
 	/**
 	 * @return the cantidad
 	 */
-	public Integer getCantidad() {
+	public String getCantidad() {
 		return cantidad;
 	}
 
 	/**
 	 * @param cantidad the cantidad to set
 	 */
-	public void setCantidad(Integer cantidad) {
+	public void setCantidad(String cantidad) {
 		this.cantidad = cantidad;
 	}
 	
