@@ -86,7 +86,7 @@ public class CarritoController {
 	}
 
 	@WebMethod(action = "listarCarrito", operationName = "operacionListarCarrito")
-	public List<Carrito> listarCarrito(@WebParam(name = "idUsuario")int idUsuario) {
+	public List<Carrito> listarCarrito(@WebParam(name = "idUsuario")String idUsuario) {
 
 		Query query = persistencia.createQuery("SELECT p FROM Carrito p WHERE p.usuario.id = "+ idUsuario);
 
