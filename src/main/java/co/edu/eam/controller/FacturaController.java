@@ -6,6 +6,7 @@ package co.edu.eam.controller;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -15,7 +16,9 @@ import javax.jws.WebService;
 import javax.persistence.Query;
 
 import co.edu.eam.dto.ItemsDTO;
+import co.edu.eam.ejb.CarritoEJB;
 import co.edu.eam.ejb.PersistenceManagerLocal;
+import co.edu.eam.ejb.ProductoEJB;
 import co.edu.eam.model.Carrito;
 import co.edu.eam.model.Cliente;
 import co.edu.eam.model.DetalleFactura;
@@ -33,6 +36,16 @@ public class FacturaController {
 
 	@EJB
 	private PersistenceManagerLocal persistencia;
+	
+	@EJB
+	private CarritoEJB controlCarrito;
+	
+	@EJB
+	private DetalleController controlDetalle;
+	
+	@EJB
+	private ProductoEJB controlProducto;
+	
 
 	@WebMethod(action = "crearCompra", operationName = "operacionCrearCompra")
 	public String crearCompra(@WebParam(name = "id_usuario") Integer id,
@@ -109,15 +122,16 @@ public class FacturaController {
 				
 				producto.setCantidad(aux);
 			
-				persistencia.update(producto);
+				controlProducto.actualizarProducto(producto);
 				
 				System.out.println("13");
-				DetalleFactura detalle = new DetalleFactura(1, Integer.parseInt(itemsDTO.getCantidad()), 
+				int idDetalle = generaId();
+				DetalleFactura detalle = new DetalleFactura(idDetalle, Integer.parseInt(itemsDTO.getCantidad()), 
 						fecha, Integer.parseInt(itemsDTO.getValorTotal()),factura, producto);
 				
 				System.out.println("14");
-				persistencia.persist(detalle);
-				eliminarCarrito(producto.getId(), usuario.getId());
+				controlDetalle.crearDetalle(detalle);
+				controlCarrito.eliminarCarrito(producto.getId(), usuario.getId());
 			}
 			
 			result = "Exito";
@@ -154,19 +168,9 @@ public class FacturaController {
 
 	}
 
-	public void eliminarCarrito(Integer idProducto, Integer idUsuario) {
-
-		Query query = persistencia.createQuery(
-				"SELECT c FROM Carrito c where c.producto.id = " + idProducto + " and c.usuario.id = " + idUsuario);
-
-		System.out.println(query.toString());
-
-		Carrito carrito = (Carrito) query.getSingleResult();
-
-		//System.out.println(carrito.getCantidad());
-
-		persistencia.remove(carrito.getClass(), carrito.getId());
-
+	public int generaId() {
+		Random r = new Random();
+		return (int) r.nextInt(9999);
 	}
 	
 	
