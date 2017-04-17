@@ -32,11 +32,13 @@ public class LoginController {
 		
 		try{
 			
+			System.out.println(user+", "+ password);
+			
 			Query query = persistencia.createQuery("SELECT m FROM Usuario m where m.nombreUsuario='"+user+"' and m.password = '"+password+"'");
 			
 			Usuario result = (Usuario) query.getSingleResult();
 				
-				return result;
+			return result;
 			
 		}catch (Exception e) {
 			

@@ -28,13 +28,13 @@ import co.edu.eam.model.Usuario;
  * @version
  */
 @Stateless
-@WebService
+@WebService(name = "FacturaController", portName = "FacCtlPort", targetNamespace = "http://co.edu.eam.ingsoft.distribuidos")
 public class FacturaController {
 
 	@EJB
 	private PersistenceManagerLocal persistencia;
 
-	@WebMethod
+	@WebMethod(action = "crearCompra", operationName = "operacionCrearCompra")
 	public String crearCompra(@WebParam(name = "id_usuario") Integer id,
 			@WebParam(name = "total_factura") Double total_fac,
 			@WebParam(name = "detalles_factura") List<ItemsDTO> items) {
@@ -43,8 +43,7 @@ public class FacturaController {
 		
 		Producto validor = validarItems(items);
 		
-		if (validor == null) {
-
+		if (validor == null) {			
 			/**
 			 * Crea el usuario y setea el id para adicionarlo en la factura como
 			 * foranea
@@ -61,6 +60,7 @@ public class FacturaController {
 			 * Obtiene el ultimo id y suma una unidad mas para formar la nueva
 			 * factura
 			 */
+			
 			Query query = persistencia.createQuery("SELECT MAX(f.id) FROM Factura f");
 
 			/**
@@ -76,46 +76,48 @@ public class FacturaController {
 			/**
 			 * Objeto Factura que se va a guardar en la base de datos
 			 */
+			
 			Factura factura = new Factura(1, fecha, num_fac, total_fac, usuario);
 
 			/**
 			 * Guardado de la factura
 			 */
+			
 			persistencia.persist(factura);
+		
 
 			/**
 			 * Busca la factura que se acabo de guardar para obtener el id que
 			 * sera la foranea de detalle factura
 			 */
 			query = persistencia.createQuery("SELECT f FROM Factura f where f.numero='" + num_fac + "'");
-
+		
 			/**
 			 * factura obtenida en la busqueda
 			 */
 			factura = (Factura) query.getSingleResult();
-
+		
 			/**
 			 * for que guarda los detalles de facturas
 			 */
 			for (ItemsDTO itemsDTO : items) {
-
-				query = persistencia.createQuery("SELECT p FROM Producto p where p.id='" + itemsDTO.getId() + "'");
-
-				Producto producto = (Producto) query.getSingleResult();
-
-				aux = (Integer.parseInt(itemsDTO.getCantidad())) - (producto.getCantidad().intValue());
-
+				Query query1 = persistencia.createQuery("SELECT p FROM Producto p where p.id='" + itemsDTO.getId() + "'");
+	
+				Producto producto = (Producto) query1.getSingleResult();
+		
+				aux = ((producto.getCantidad().intValue() - Integer.parseInt(itemsDTO.getCantidad())));
+				
 				producto.setCantidad(aux);
-
+			
 				persistencia.update(producto);
-
-				DetalleFactura detalle = new DetalleFactura(0, Integer.parseInt(itemsDTO.getCantidad()), fecha, Integer.parseInt(itemsDTO.getValorTotal()),
-						factura, producto);
-
+				
+				System.out.println("13");
+				DetalleFactura detalle = new DetalleFactura(1, Integer.parseInt(itemsDTO.getCantidad()), 
+						fecha, Integer.parseInt(itemsDTO.getValorTotal()),factura, producto);
+				
+				System.out.println("14");
 				persistencia.persist(detalle);
-
 				eliminarCarrito(producto.getId(), usuario.getId());
-
 			}
 			
 			result = "Exito";
@@ -124,9 +126,9 @@ public class FacturaController {
 
 		} else {
 			
-			result = "El producto " + validor.getNombre() + " solo tiene disponible " + validor.getCantidad();
+			result = "Error";
 
-		 return result;
+			return result;
 
 		}
 
@@ -161,10 +163,11 @@ public class FacturaController {
 
 		Carrito carrito = (Carrito) query.getSingleResult();
 
-		System.out.println(carrito.getCantidad());
+		//System.out.println(carrito.getCantidad());
 
 		persistencia.remove(carrito.getClass(), carrito.getId());
 
 	}
-
+	
+	
 }
