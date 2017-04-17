@@ -55,7 +55,6 @@ public class FacturaController {
 		String result = "";
 		
 		Producto validor = validarItems(items);
-		
 		if (validor == null) {			
 			/**
 			 * Crea el usuario y setea el id para adicionarlo en la factura como
@@ -123,13 +122,11 @@ public class FacturaController {
 				producto.setCantidad(aux);
 			
 				controlProducto.actualizarProducto(producto);
-				
-				System.out.println("13");
+		
 				int idDetalle = generaId();
 				DetalleFactura detalle = new DetalleFactura(idDetalle, Integer.parseInt(itemsDTO.getCantidad()), 
 						fecha, Integer.parseInt(itemsDTO.getValorTotal()),factura, producto);
-				
-				System.out.println("14");
+			
 				controlDetalle.crearDetalle(detalle);
 				controlCarrito.eliminarCarrito(producto.getId(), usuario.getId());
 			}
@@ -156,7 +153,7 @@ public class FacturaController {
 
 			Producto produc = (Producto) querie.getSingleResult();
 
-			if ((produc.getCantidad().intValue()) <= (Integer.parseInt(itemsDTO.getCantidad()))) {
+			if ((produc.getCantidad().intValue()) >= (Integer.parseInt(itemsDTO.getCantidad()))) {
 
 				return produc;
 
