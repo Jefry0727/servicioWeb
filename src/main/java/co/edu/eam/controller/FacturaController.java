@@ -55,7 +55,7 @@ public class FacturaController {
 		String result = "";
 		
 		Producto validor = validarItems(items);
-		if (validor == null) {			
+		if (validor != null) {			
 			/**
 			 * Crea el usuario y setea el id para adicionarlo en la factura como
 			 * foranea
